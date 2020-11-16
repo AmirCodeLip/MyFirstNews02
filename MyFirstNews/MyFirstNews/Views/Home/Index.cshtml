@@ -1,0 +1,64 @@
+﻿@model List<Tag>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="m-2">
+    <div class="row">
+        <div class="col-2 custom-tab">
+            @foreach (var tag in Model.Where(x => x.ParentId == null))
+            {
+                <div>
+                    <div>
+                        @tag.Title
+                    </div>
+                    <div class="p-2">
+
+                        @foreach (var child in Model.Where(x => x.ParentId == tag.Id))
+                        {
+                            <div class="mt-2" ng-init="addTag(@child.Id)">
+                                <div class="tn">
+                                    @child.Title
+                                </div>
+                                <div class="tc">
+                                    <input type="checkbox" ng-change="tagChanged()" ng-model="tags[@child.Id].isChecked" />
+                                </div>
+                            </div>
+                            <br />
+
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <div class="col-4" ng-repeat="news in newses">
+                    <div class="news-cadr">
+                        <div class="news-title">
+                            {{news.Title}}
+                        </div>
+                        <div class="news-img">
+                            <img src="{{news.NewsImages[0].FullPath}}" />
+                        </div>
+                        <div class="news-short-description">
+                            {{news.ShortDescription}}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@section Scripts{
+
+
+    <script src="~/js/Index.js"></script>
+
+}
